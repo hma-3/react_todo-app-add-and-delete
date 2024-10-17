@@ -11,11 +11,9 @@ import { TodoErrorNotification } from './components/TodoErrorNotification';
 export const App: React.FC = () => {
   const {
     todos,
-    setTodos,
     todosAmount,
     loadingTodoIds,
     tempTodo,
-    setTempTodo,
     activeTodosAmount,
     setActiveTodosAmount,
     setCompletedTodoIds,
@@ -23,10 +21,14 @@ export const App: React.FC = () => {
     statusFilter,
     setStatusFilter,
     handleResetErrorMessage,
-    handleError,
     handleLoadTodos,
     handleDeleteTodo,
     handleClearCompleted,
+    isFocusedInput,
+    newTodoTitle,
+    handleTitleChange,
+    isLoadingSubmit,
+    handleSubmitForm,
   } = useTodo();
 
   useEffect(() => {
@@ -47,11 +49,13 @@ export const App: React.FC = () => {
 
       <div className="todoapp__content">
         <TodoHeader
-          setTodos={setTodos}
-          setTempTodo={setTempTodo}
-          activeTodosAmount={activeTodosAmount}
           todosAmount={todosAmount}
-          onError={handleError}
+          activeTodosAmount={activeTodosAmount}
+          isFocusedInput={isFocusedInput}
+          newTodoTitle={newTodoTitle}
+          onTitleChange={handleTitleChange}
+          isLoadingSubmit={isLoadingSubmit}
+          onSubmitForm={handleSubmitForm}
         />
 
         {!!todosAmount && (
