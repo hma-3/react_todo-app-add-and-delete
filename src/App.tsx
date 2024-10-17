@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-import { countLeftTodos, getCompletedTodoIds } from './utils';
 import { useTodo } from './hooks/useTodo';
 
 import { TodoHeader } from './components/TodoHeader';
@@ -15,8 +14,6 @@ export const App: React.FC = () => {
     loadingTodoIds,
     tempTodo,
     activeTodosAmount,
-    setActiveTodosAmount,
-    setCompletedTodoIds,
     errorMessage,
     statusFilter,
     setStatusFilter,
@@ -36,12 +33,6 @@ export const App: React.FC = () => {
     handleLoadTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    setActiveTodosAmount(countLeftTodos(todos));
-    setCompletedTodoIds(getCompletedTodoIds(todos));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos]);
 
   return (
     <div className="todoapp">

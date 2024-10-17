@@ -2,13 +2,12 @@ import { useCallback, useMemo, useState } from 'react';
 import { ErrorMessages, StatusFilter, Todo } from '../types';
 import { addTodo, deleteTodo, getTodos, USER_ID } from '../api/todos';
 import { useTodoForm } from './useTodoForm';
+import { countLeftTodos, getCompletedTodoIds } from '../utils';
 
 export const useTodo = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loadingTodoIds, setLoadingTodoIds] = useState<number[]>([]);
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
-  const [activeTodosAmount, setActiveTodosAmount] = useState(0);
-  const [completedTodoIds, setCompletedTodoIds] = useState<number[]>([]);
   const [errorMessage, setErrorMessage] = useState<ErrorMessages>(
     ErrorMessages.DEFAULT,
   );
@@ -25,7 +24,9 @@ export const useTodo = () => {
     setIsFocusedInput,
   } = useTodoForm();
 
-  const todosAmount = useMemo(() => todos.length, [todos]);
+  const todosAmount = todos.length;
+  const activeTodosAmount = useMemo(() => countLeftTodos(todos), [todos]);
+  const completedTodoIds = useMemo(() => getCompletedTodoIds(todos), [todos]);
 
   const handleResetErrorMessage = useCallback(
     () => setErrorMessage(ErrorMessages.DEFAULT),
@@ -109,8 +110,6 @@ export const useTodo = () => {
     tempTodo,
     setTempTodo,
     activeTodosAmount,
-    setActiveTodosAmount,
-    setCompletedTodoIds,
     errorMessage,
     statusFilter,
     setStatusFilter,
